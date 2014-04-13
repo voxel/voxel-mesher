@@ -1,6 +1,6 @@
 {
   "name": "voxel-mesher",
-  "version": "0.2.10",
+  "version": "0.3.0",
   "description": "Voxel ambient occlusion mesher",
   "main": "mesh.js",
   "directories": {
@@ -12,8 +12,7 @@
     "cwise-compiler": "~0.1.0",
     "typedarray-pool": "~0.1.1"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "scripts": {
     "test": "tap test/*.js"
   },
