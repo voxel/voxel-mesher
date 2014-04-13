@@ -1,5 +1,5 @@
 {
-  "name": "ao-mesher",
+  "name": "voxel-mesher",
   "version": "0.2.10",
   "description": "Voxel ambient occlusion mesher",
   "main": "mesh.js",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mikolalysenko/ao-mesher.git"
+    "url": "git://github.com/deathcap/voxel-mesher.git"
   },
   "keywords": [
     "voxel",
@@ -33,6 +33,6 @@
   "readmeFilename": "README.md",
   "gitHead": "defafd90223c6ea56ac1c2f38d3b2aecc27a6972",
   "bugs": {
-    "url": "https://github.com/mikolalysenko/ao-mesher/issues"
+    "url": "https://github.com/deathcap/voxel-mesher/issues"
   }
 }
