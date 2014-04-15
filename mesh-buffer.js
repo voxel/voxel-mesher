@@ -3,7 +3,7 @@
 var ndarray = require("ndarray")
 var createBuffer = require("gl-buffer")
 var createVAO = require("gl-vao")
-var createAOMesh = require("voxel-mesher")
+var createAOMesh = require("./mesh.js")
 var ops = require("ndarray-ops")
 
 //Creates a mesh from a set of voxels
