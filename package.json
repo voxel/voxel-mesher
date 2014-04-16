@@ -2,7 +2,7 @@
   "name": "voxel-mesher",
   "version": "0.5.0",
   "description": "Voxel ambient occlusion mesher",
-  "main": "mesh-buffer.js",
+  "main": "mesh-plugin.js",
   "directories": {
     "test": "test"
   },
