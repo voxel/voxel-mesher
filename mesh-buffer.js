@@ -10,6 +10,7 @@ var ops = require("ndarray-ops")
 function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes) {
   //Create mesh
   var vert_data = createAOMesh(voxels, voxelSideTextureIDs, voxelSideTextureSizes)
+  if (vert_data === null) return null // no vertices allocated
   
   //Upload triangle mesh to WebGL
   var triangleVertexCount = Math.floor(vert_data.length/8)
