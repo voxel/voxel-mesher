@@ -23,31 +23,29 @@ function MesherPlugin(game, opts) {
 };
 
 MesherPlugin.prototype.enable = function() {
+  //moved to voxel-engine
   // when ready stitcher.voxelSideTextureIDs and stitcher.voxelSideTextureSizes are ready,
   // the mesh can be created (requires texture IDs due to opacity and texturing)
-  this.stitcher.on('updatedSides', this.onUpdatedSides = this.createMeshes.bind(this));
+  //this.stitcher.on('updatedSides', this.onUpdatedSides = this.createMeshes.bind(this));
 };
 
 MesherPlugin.prototype.disable = function() {
-  this.stitcher.removeListener('updatedSides', this.onUpdatedSides);
+  //this.stitcher.removeListener('updatedSides', this.onUpdatedSides);
 };
 
-MesherPlugin.prototype.addVoxelArray = function(voxelArray) {
-  this.voxelArrays.push(voxelArray);
-};
-
-MesherPlugin.prototype.createMeshes = function() {
+MesherPlugin.prototype.createMesh = function(voxelArray) {
   this.meshes.length = 0;
 
-  for (var i = 0; i < this.voxelArrays.length; ++i) {
-    var voxelArray = this.voxelArrays[i];
+  if (!this.stitcher.voxelSideTextureIDs || !this.stitcher.voxelSideTextureSizes)
+    throw new Error('voxel-mesher createMesh() called before stitcher was ready (updatedSides event)');
 
-    var mesh = createVoxelMesh(this.shell.gl, voxelArray, this.stitcher.voxelSideTextureIDs, this.stitcher.voxelSideTextureSizes);
-    this.meshes.push(mesh);
-  }
+  if (!this.shell.gl)
+    throw new Error('voxel-mesher createMesh() called before this.shell.gl was ready');
 
-  /* TODO: camera?
-  var c = mesh.center
-  camera.lookAt([c[0]+mesh.radius*2, c[1], c[2]], c, [0,1,0])
-  */
+  var mesh = createVoxelMesh(this.shell.gl, voxelArray, this.stitcher.voxelSideTextureIDs, this.stitcher.voxelSideTextureSizes);
+  if (!mesh) return null; // no vertices
+
+  this.meshes.push(mesh); // TODO: remove; let voxel-engine hold the meshes (but then need to update voxel-shader)
+
+  return mesh;
 };
