@@ -33,8 +33,6 @@ MesherPlugin.prototype.disable = function() {
 };
 
 MesherPlugin.prototype.createMesh = function(voxelArray, position) {
-  this.meshes.length = 0;
-
   if (!this.stitcher.voxelSideTextureIDs || !this.stitcher.voxelSideTextureSizes)
     throw new Error('voxel-mesher createMesh() called before stitcher was ready (updatedSides event)');
 
