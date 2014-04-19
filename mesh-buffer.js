@@ -56,11 +56,13 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
 
   // move the chunk into place
   var modelMatrix = mat4.create()
-  mat4.translate(modelMatrix, modelMatrix, [
-      position[0] * (voxels.shape[0] - 1), // TODO: fix
-      position[1] * (voxels.shape[1] - 1),
-      position[2] * (voxels.shape[2] - 1)])
-  
+  var translateVector = [
+    position[2] * (voxels.shape[0] - 2),
+    position[1] * (voxels.shape[1] - 2),
+    position[0] * (voxels.shape[2] - 2)]
+
+  mat4.translate(modelMatrix, modelMatrix, translateVector)
+
   //Bundle result and return
   var result = {
     triangleVertexCount: triangleVertexCount,
