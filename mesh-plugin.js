@@ -16,7 +16,6 @@ function MesherPlugin(game, opts) {
   this.stitcher = game.plugins.get('voxel-stitch');
   if (!this.stitcher) throw new Error('voxel-mesher requires voxel-stitch plugin');
 
-  this.voxelArrays = []; // raw voxel data TODO: ~ voxel module chunks or TODO integrate with shama's chunker mentioned in https://github.com/voxel/issues/issues/4#issuecomment-39644684
   this.meshes = []; // meshed for rendering TODO: ~ voxels.meshes, 'voxel' module
 
   this.enable();
