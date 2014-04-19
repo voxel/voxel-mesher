@@ -13,7 +13,8 @@
     "typedarray-pool": "~0.1.1",
     "gl-buffer": "^2.0.6",
     "gl-vao": "^1.1.2",
-    "ndarray-ops": "^1.2.1"
+    "ndarray-ops": "^1.2.1",
+    "gl-matrix": "^2.2.1"
   },
   "devDependencies": {},
   "scripts": {

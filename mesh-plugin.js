@@ -33,7 +33,7 @@ MesherPlugin.prototype.disable = function() {
   //this.stitcher.removeListener('updatedSides', this.onUpdatedSides);
 };
 
-MesherPlugin.prototype.createMesh = function(voxelArray) {
+MesherPlugin.prototype.createMesh = function(voxelArray, position) {
   this.meshes.length = 0;
 
   if (!this.stitcher.voxelSideTextureIDs || !this.stitcher.voxelSideTextureSizes)
@@ -42,7 +42,7 @@ MesherPlugin.prototype.createMesh = function(voxelArray) {
   if (!this.shell.gl)
     throw new Error('voxel-mesher createMesh() called before this.shell.gl was ready');
 
-  var mesh = createVoxelMesh(this.shell.gl, voxelArray, this.stitcher.voxelSideTextureIDs, this.stitcher.voxelSideTextureSizes);
+  var mesh = createVoxelMesh(this.shell.gl, voxelArray, this.stitcher.voxelSideTextureIDs, this.stitcher.voxelSideTextureSizes, position);
   if (!mesh) return null; // no vertices
 
   this.meshes.push(mesh); // TODO: remove; let voxel-engine hold the meshes (but then need to update voxel-shader)

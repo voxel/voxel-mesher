@@ -5,9 +5,11 @@ var createBuffer = require("gl-buffer")
 var createVAO = require("gl-vao")
 var createAOMesh = require("./mesh.js")
 var ops = require("ndarray-ops")
+var glm = require("gl-matrix")
+var mat4 = glm.mat4
 
 //Creates a mesh from a set of voxels
-function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes) {
+function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes, position) {
   //Create mesh
   var vert_data = createAOMesh(voxels, voxelSideTextureIDs, voxelSideTextureSizes)
   if (vert_data === null) return null // no vertices allocated
@@ -51,6 +53,9 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes)
       "normalized": false
     }
   ])
+
+  var modelMatrix = mat4.create()
+  mat4.translate(modelMatrix, modelMatrix, position)
   
   //Bundle result and return
   var result = {
@@ -59,7 +64,8 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes)
     wireVertexCount: wireVertexCount,
     wireVAO: wireVAO,
     center: [voxels.shape[0]>>1, voxels.shape[1]>>1, voxels.shape[2]>>1],
-    radius: voxels.shape[2]
+    radius: voxels.shape[2],
+    modelMatrix: modelMatrix
   }
   return result
 }
