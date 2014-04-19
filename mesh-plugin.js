@@ -16,8 +16,6 @@ function MesherPlugin(game, opts) {
   this.stitcher = game.plugins.get('voxel-stitch');
   if (!this.stitcher) throw new Error('voxel-mesher requires voxel-stitch plugin');
 
-  this.meshes = []; // meshed for rendering TODO: ~ voxels.meshes, 'voxel' module
-
   this.enable();
 };
 
@@ -41,8 +39,6 @@ MesherPlugin.prototype.createMesh = function(voxelArray, position) {
 
   var mesh = createVoxelMesh(this.shell.gl, voxelArray, this.stitcher.voxelSideTextureIDs, this.stitcher.voxelSideTextureSizes, position);
   if (!mesh) return null; // no vertices
-
-  this.meshes.push(mesh); // TODO: remove; let voxel-engine hold the meshes (but then need to update voxel-shader)
 
   return mesh;
 };
