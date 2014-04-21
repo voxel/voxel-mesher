@@ -57,9 +57,9 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
   // move the chunk into place
   var modelMatrix = mat4.create()
   var translateVector = [
-    position[2] * (voxels.shape[0] - 2),
+    position[2] * (voxels.shape[2] - 2),
     position[1] * (voxels.shape[1] - 2),
-    position[0] * (voxels.shape[2] - 2)]
+    position[0] * (voxels.shape[0] - 2)]
 
   mat4.translate(modelMatrix, modelMatrix, translateVector)
 
