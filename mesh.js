@@ -29,8 +29,8 @@ var VERTEX_SIZE     = 8
 // Voxel format:
 //
 //  * Max 16 bits per voxel
-//  * Bit 15 is opacity flag  (set to 1 for voxel to be solid, otherwise rendererd transparent)
-//  * Texture index is calculated by masking out lower order bits
+//  * Bit 15 is opacity flag  (set to 1 for voxel to be solid, otherwise rendered transparent)
+//  * Texture index is calculated by indexing the voxel ID through voxelSideTextureIDs
 //
 //
 // This stuff can be changed over time.  -Mik
