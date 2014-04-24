@@ -6,39 +6,12 @@ module.exports = function(game, opts) {
   return new MesherPlugin(game, opts);
 };
 module.exports.pluginInfo = {
-  clientOnly: true,
-  loadAfter: ['voxel-stitch']
+  clientOnly: true
 };
 
 function MesherPlugin(game, opts) {
-  this.shell = game.shell;
-
-  this.stitcher = game.plugins.get('voxel-stitch');
-  if (!this.stitcher) throw new Error('voxel-mesher requires voxel-stitch plugin');
-
-  this.enable();
+  this.game = game;
 };
 
-MesherPlugin.prototype.enable = function() {
-  //moved to voxel-engine
-  // when ready stitcher.voxelSideTextureIDs and stitcher.voxelSideTextureSizes are ready,
-  // the mesh can be created (requires texture IDs due to opacity and texturing)
-  //this.stitcher.on('updatedSides', this.onUpdatedSides = this.createMeshes.bind(this));
-};
+MesherPlugin.prototype.createVoxelMesh = createVoxelMesh;
 
-MesherPlugin.prototype.disable = function() {
-  //this.stitcher.removeListener('updatedSides', this.onUpdatedSides);
-};
-
-MesherPlugin.prototype.createMesh = function(voxelArray, position) {
-  if (!this.stitcher.voxelSideTextureIDs || !this.stitcher.voxelSideTextureSizes)
-    throw new Error('voxel-mesher createMesh() called before stitcher was ready (updatedSides event)');
-
-  if (!this.shell.gl)
-    throw new Error('voxel-mesher createMesh() called before this.shell.gl was ready');
-
-  var mesh = createVoxelMesh(this.shell.gl, voxelArray, this.stitcher.voxelSideTextureIDs, this.stitcher.voxelSideTextureSizes, position);
-  if (!mesh) return null; // no vertices
-
-  return mesh;
-};
