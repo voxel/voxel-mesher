@@ -34,26 +34,6 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
     }
   ])
   
-  //Create wire mesh
-  var wireVertexCount = 2 * triangleVertexCount
-  var wireVertexArray = ndarray(new Uint8Array(wireVertexCount * 3), [triangleVertexCount, 2, 3])
-  var trianglePositions = ndarray(vert_data, [triangleVertexCount, 3], [8, 1], 0)
-  ops.assign(wireVertexArray.pick(undefined, 0, undefined), trianglePositions)
-  var wires = wireVertexArray.pick(undefined, 1, undefined)
-  for(var i=0; i<3; ++i) {
-    ops.assign(wires.lo(i).step(3), trianglePositions.lo((i+1)%3).step(3))
-  }
-  var wireBuf = createBuffer(gl, wireVertexArray.data)
-  var wireVAO = createVAO(gl, [
-    { "buffer": wireBuf,
-      "type": gl.UNSIGNED_BYTE,
-      "size": 3,
-      "offset": 0,
-      "stride": 3,
-      "normalized": false
-    }
-  ])
-
   // move the chunk into place
   var modelMatrix = mat4.create()
   var translateVector = [
@@ -67,12 +47,13 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
   var result = {
     triangleVertexCount: triangleVertexCount,
     triangleVAO: triangleVAO,
-    wireVertexCount: wireVertexCount,
-    wireVAO: wireVAO,
     center: [voxels.shape[0]>>1, voxels.shape[1]>>1, voxels.shape[2]>>1],
     radius: voxels.shape[2],
     modelMatrix: modelMatrix
   }
+
+  if (this) this.emit('meshed', result, gl, vert_data)
+
   return result
 }
 
