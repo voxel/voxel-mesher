@@ -12,28 +12,34 @@ var mat4 = glm.mat4
 function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes, position) {
   //Create mesh
   var vert_data = createAOMesh(voxels, voxelSideTextureIDs, voxelSideTextureSizes)
-  if (vert_data === null) return null // no vertices allocated
-  
-  //Upload triangle mesh to WebGL
-  var triangleVertexCount = Math.floor(vert_data.length/8)
-  var vert_buf = createBuffer(gl, vert_data)
-  var triangleVAO = createVAO(gl, [
-    { "buffer": vert_buf,
-      "type": gl.UNSIGNED_BYTE,
-      "size": 4,
-      "offset": 0,
-      "stride": 8,
-      "normalized": false
-    },
-    { "buffer": vert_buf,
-      "type": gl.UNSIGNED_BYTE,
-      "size": 4,
-      "offset": 4,
-      "stride": 8,
-      "normalized": false
-    }
-  ])
-  
+  var triangleVertexCount, triangleVAO
+
+  if (vert_data === null) {
+    // no vertices allocated
+    triangleVertexCount = 0
+    triangleVAO = null
+  } else {
+    //Upload triangle mesh to WebGL
+    triangleVertexCount = Math.floor(vert_data.length/8)
+    var vert_buf = createBuffer(gl, vert_data)
+    triangleVAO = createVAO(gl, [
+      { "buffer": vert_buf,
+        "type": gl.UNSIGNED_BYTE,
+        "size": 4,
+        "offset": 0,
+        "stride": 8,
+        "normalized": false
+      },
+      { "buffer": vert_buf,
+        "type": gl.UNSIGNED_BYTE,
+        "size": 4,
+        "offset": 4,
+        "stride": 8,
+        "normalized": false
+      }
+    ])
+  }
+
   // move the chunk into place
   var modelMatrix = mat4.create()
   var translateVector = [
