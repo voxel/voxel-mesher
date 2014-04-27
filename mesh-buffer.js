@@ -52,7 +52,7 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
     modelMatrix: modelMatrix
   }
 
-  if (this) this.emit('meshed', result, gl, vert_data)
+  if (this) this.emit('meshed', result, gl, vert_data, voxels)
 
   return result
 }
