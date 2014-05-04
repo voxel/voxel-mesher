@@ -12,16 +12,14 @@ var mat4 = glm.mat4
 function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes, position) {
   //Create mesh
   var vert_data = createAOMesh(voxels, voxelSideTextureIDs, voxelSideTextureSizes)
-  var triangleVertexCount, triangleVAO
+  var vertexArrayObjects = {}
 
   if (vert_data === null) {
     // no vertices allocated
-    triangleVertexCount = 0
-    triangleVAO = null
   } else {
     //Upload triangle mesh to WebGL
     var vert_buf = createBuffer(gl, vert_data)
-    triangleVAO = createVAO(gl, [
+    var triangleVAO = createVAO(gl, [
       { "buffer": vert_buf,
         "type": gl.UNSIGNED_BYTE,
         "size": 4,
@@ -38,6 +36,8 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
       }
     ])
     triangleVAO.length = Math.floor(vert_data.length/8)
+
+    vertexArrayObjects.surface = triangleVAO
   }
 
   // move the chunk into place
@@ -51,7 +51,7 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
 
   //Bundle result and return
   var result = {
-    triangleVAO: triangleVAO,
+    vertexArrayObjects: vertexArrayObjects, // other plugins can add their own VAOs
     center: [voxels.shape[0]>>1, voxels.shape[1]>>1, voxels.shape[2]>>1],
     radius: voxels.shape[2],
     modelMatrix: modelMatrix
