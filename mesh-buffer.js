@@ -20,7 +20,6 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
     triangleVAO = null
   } else {
     //Upload triangle mesh to WebGL
-    triangleVertexCount = Math.floor(vert_data.length/8)
     var vert_buf = createBuffer(gl, vert_data)
     triangleVAO = createVAO(gl, [
       { "buffer": vert_buf,
@@ -38,6 +37,7 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
         "normalized": false
       }
     ])
+    triangleVAO.length = Math.floor(vert_data.length/8)
   }
 
   // move the chunk into place
@@ -51,7 +51,6 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
 
   //Bundle result and return
   var result = {
-    triangleVertexCount: triangleVertexCount,
     triangleVAO: triangleVAO,
     center: [voxels.shape[0]>>1, voxels.shape[1]>>1, voxels.shape[2]>>1],
     radius: voxels.shape[2],
