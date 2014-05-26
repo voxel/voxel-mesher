@@ -9,7 +9,7 @@ var glm = require("gl-matrix")
 var mat4 = glm.mat4
 
 //Creates a mesh from a set of voxels
-function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes, position) {
+function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes, position, pad) {
   //Create mesh
   var vert_data = createAOMesh(voxels, voxelSideTextureIDs, voxelSideTextureSizes)
   var vertexArrayObjects = {}
@@ -42,18 +42,19 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
 
   // move the chunk into place
   var modelMatrix = mat4.create()
+  var w = voxels.shape[2] - pad  // =[1]=[0]=game.chunkSize
   var translateVector = [
-    position[2] * (voxels.shape[2] - 2),
-    position[1] * (voxels.shape[1] - 2),
-    position[0] * (voxels.shape[0] - 2)]
+    position[2] * w,
+    position[1] * w,
+    position[0] * w]
 
   mat4.translate(modelMatrix, modelMatrix, translateVector)
 
   //Bundle result and return
   var result = {
     vertexArrayObjects: vertexArrayObjects, // other plugins can add their own VAOs
-    center: [voxels.shape[0]>>1, voxels.shape[1]>>1, voxels.shape[2]>>1],
-    radius: voxels.shape[2],
+    center: [w>>1, w>>1, w>>1],
+    radius: w,
     modelMatrix: modelMatrix
   }
 
