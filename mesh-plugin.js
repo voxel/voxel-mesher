@@ -30,7 +30,7 @@ function MesherPlugin(game, opts) {
 
   var s = game.chunkSize + (game.chunkPad|0)
   this.solidVoxels = ndarray(new game.arrayType(s*s*s), [s,s,s]);
-  this.porousVoxels = []; //ndarray(new game.arrayType(s*s*s), [s,s,s]);
+  this.porousMeshes = [];
 };
 inherits(MesherPlugin, EventEmitter);
 
@@ -39,36 +39,26 @@ MesherPlugin.prototype.createVoxelMesh = function(gl, voxels, voxelSideTextureID
 
   var mesh = createVoxelMesh(gl, this.solidVoxels, voxelSideTextureIDs, voxelSideTextureSizes, position, pad);
 
-  this.meshCustomBlocks(mesh);
+  mesh.vertexArrayObjects.porous = this.porousMeshes;
 
   return mesh;
 }
 
-// meshes this.porousVoxels into mesh.vertexArrayObjects.porous
-MesherPlugin.prototype.meshCustomBlocks = function(mesh) {
-  var voxels = this.porousVoxels;
+// mesh custom voxel
+MesherPlugin.prototype.meshCustomBlock = function(value) {
+  var model = this.registry.blockProps[value].blockModel;
+  var stitcher = this.stitcher;
 
-  mesh.vertexArrayObjects.porous = [];
+  var blockMesh = createBlockGeometry(
+    this.shell.gl,
+    model,
+    //getTextureUV:
+    function(name) {
+      return stitcher.getTextureUV(name); // only available when textures are ready
+    }
+  );
 
-  for (var i = 0; i < voxels.length; ++i) {
-    var info = voxels[i];
-    var value = info.value
-
-    var model = this.registry.blockProps[value].blockModel;
-    var stitcher = this.stitcher;
-
-    var blockMesh = createBlockGeometry(
-      this.shell.gl,
-      model,
-      //getTextureUV:
-      function(name) {
-        return stitcher.getTextureUV(name); // only available when textures are ready
-      }
-    );
-    blockMesh.position = info.position;
-
-    mesh.vertexArrayObjects.porous.push(blockMesh);
-  }
+  return blockMesh;
 };
 
 // populates solidVoxels, porousVoxels
@@ -91,8 +81,8 @@ MesherPlugin.prototype.splitVoxelArray = function(voxels) {
   ops.assign(solidVoxels, voxels);
 
   // phase 2: porous voxels = translucent, custom block models (stained glass, slabs, stairs)
-  var porousVoxels = this.porousVoxels = [];
   var hasBlockModel = this.hasBlockModel;
+  var porousMeshes = this.porousMeshes = [];
 
   var length = solidVoxels.data.length;
   for (var i = 0; i < length; ++i) {
@@ -109,9 +99,10 @@ MesherPlugin.prototype.splitVoxelArray = function(voxels) {
       y += voxels.position[1]*32
       x += voxels.position[2]*32
 
-      // add to list for custom rendering (list not array since fewer custom
-      // model blocks are expected, less array iteration TODO: revisit)
-      porousVoxels.push({position:[x,y,z], value:value});
+      // compute the custom mesh now
+      var blockMesh = this.meshCustomBlock(value);
+      blockMesh.position = [x,y,z];
+      this.porousMeshes.push(blockMesh);
     } else if (!isTransparent[value]) {
       solidVoxels.data[i] = value | (1<<15); // opaque bit
     }
