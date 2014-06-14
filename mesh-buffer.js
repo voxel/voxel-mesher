@@ -44,9 +44,9 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
   var modelMatrix = mat4.create()
   var w = voxels.shape[2] - pad  // =[1]=[0]=game.chunkSize
   var translateVector = [
-    position[2] * w,
+    position[0] * w,
     position[1] * w,
-    position[0] * w]
+    position[2] * w]
 
   mat4.translate(modelMatrix, modelMatrix, translateVector)
 
