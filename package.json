@@ -34,9 +34,11 @@
     "ndarray"
   ],
   "author": "Mikola Lysenko",
+  "contributors": [
+    "deathcap <deathcap@gmx.co.uk>"
+  ],
   "license": "MIT",
   "readmeFilename": "README.md",
-  "gitHead": "defafd90223c6ea56ac1c2f38d3b2aecc27a6972",
   "bugs": {
     "url": "https://github.com/deathcap/voxel-mesher/issues"
   }
