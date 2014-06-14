@@ -9,7 +9,7 @@ var glm = require("gl-matrix")
 var mat4 = glm.mat4
 
 //Creates a mesh from a set of voxels
-function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes, position, pad) {
+function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes, position, pad, that) {
   //Create mesh
   var vert_data = createAOMesh(voxels, voxelSideTextureIDs, voxelSideTextureSizes)
   var vertexArrayObjects = {}
@@ -58,7 +58,7 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
     modelMatrix: modelMatrix
   }
 
-  if (this) this.emit('meshed', result, gl, vert_data, voxels)
+  if (that) that.emit('meshed', result, gl, vert_data, voxels)
 
   return result
 }

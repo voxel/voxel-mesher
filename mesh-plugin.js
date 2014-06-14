@@ -39,7 +39,7 @@ inherits(MesherPlugin, EventEmitter);
 MesherPlugin.prototype.createVoxelMesh = function(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes, position, pad) {
   this.splitVoxelArray(voxels);
 
-  var mesh = createVoxelMesh(gl, this.solidVoxels, voxelSideTextureIDs, voxelSideTextureSizes, position, pad);
+  var mesh = createVoxelMesh(gl, this.solidVoxels, voxelSideTextureIDs, voxelSideTextureSizes, position, pad, this);
 
   mesh.vertexArrayObjects.porous = this.porousMeshes;
 
