@@ -59,16 +59,9 @@ MesherPlugin.prototype.meshCustomBlock = function(value,x,y,z) {
     //getTextureUV:
     function(name) {
       return stitcher.getTextureUV(name); // only available when textures are ready
-    }
+    },
+    x,y,z
   );
-
-  // translate into voxel position
-  var length = model.vertices.length;
-  for (var i = 0; i < length; i += 3) {
-    model.vertices[i + 0] += x;
-    model.vertices[i + 1] += y;
-    model.vertices[i + 2] += z;
-  }
 
   // load into GL
   var verticesBuf = createBuffer(gl, new Float32Array(model.vertices));
