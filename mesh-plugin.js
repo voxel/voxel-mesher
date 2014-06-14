@@ -75,8 +75,6 @@ MesherPlugin.prototype.splitVoxelArray = function(voxels) {
     this.hasBlockModel.unshift(undefined);
   }
 
-  var begin = Date.now();
-
   // phase 1: solid voxels = opaque, transparent (terrain blocks, glass, greedily meshed)
   var solidVoxels = this.solidVoxels;
   var isTransparent = this.isTransparent;
@@ -124,10 +122,6 @@ MesherPlugin.prototype.splitVoxelArray = function(voxels) {
       ]);
   porousMesh.length = vertices.length/3;
 
-
-  var took = Date.now() - begin;
-  if (took > 10) console.log('splitVoxelArray '+took+' ms');
-
   return porousMesh;
-}
+};
 
