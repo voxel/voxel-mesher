@@ -32,16 +32,15 @@ function MesherPlugin(game, opts) {
 
   var s = game.chunkSize + (game.chunkPad|0)
   this.solidVoxels = ndarray(new game.arrayType(s*s*s), [s,s,s]);
-  this.porousMeshes = [];
 };
 inherits(MesherPlugin, EventEmitter);
 
 MesherPlugin.prototype.createVoxelMesh = function(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes, position, pad) {
-  this.splitVoxelArray(voxels);
+  var porousMesh = this.splitVoxelArray(voxels);
 
   var mesh = createVoxelMesh(gl, this.solidVoxels, voxelSideTextureIDs, voxelSideTextureSizes, position, pad, this);
 
-  mesh.vertexArrayObjects.porous = this.porousMeshes;
+  mesh.vertexArrayObjects.porous = porousMesh;
 
   return mesh;
 }
@@ -50,8 +49,6 @@ MesherPlugin.prototype.createVoxelMesh = function(gl, voxels, voxelSideTextureID
 MesherPlugin.prototype.meshCustomBlock = function(value,x,y,z) {
   var modelDefn = this.registry.blockProps[value].blockModel;
   var stitcher = this.stitcher;
-
-  var gl = this.shell.gl;
 
   // parse JSON to vertices and UV
   var model = parseBlockModel(
@@ -63,24 +60,10 @@ MesherPlugin.prototype.meshCustomBlock = function(value,x,y,z) {
     x,y,z
   );
 
-  // load into GL
-  var verticesBuf = createBuffer(gl, new Float32Array(model.vertices));
-  var uvBuf = createBuffer(gl, new Float32Array(model.uv));
-  var mesh = createVAO(gl, [
-      { buffer: verticesBuf,
-        size: 3
-      },
-      {
-        buffer: uvBuf,
-        size: 2
-      }
-      ]);
-  mesh.length = model.vertices.length/3;
-
-  return mesh;
+  return model;
 };
 
-// populates solidVoxels, porousVoxels
+// populates solidVoxels array, returns porousMesh
 MesherPlugin.prototype.splitVoxelArray = function(voxels) {
   if (!this.isTransparent) {
     // cache list of transparent voxels TODO: refresh cache when changes
@@ -104,6 +87,8 @@ MesherPlugin.prototype.splitVoxelArray = function(voxels) {
   var porousMeshes = this.porousMeshes = [];
 
   var length = solidVoxels.data.length;
+  var vertices = [];
+  var uv = [];
   for (var i = 0; i < length; ++i) {
     var value = solidVoxels.data[i];
     if (hasBlockModel[value]) {
@@ -115,16 +100,34 @@ MesherPlugin.prototype.splitVoxelArray = function(voxels) {
       var y = (o % 36)-2; o = Math.floor(o / 36);
       var x = o-2;
 
-      // compute the custom mesh now
-      var blockMesh = this.meshCustomBlock(value,x,y,z);
-
-      this.porousMeshes.push(blockMesh);
+      // accumulate mesh vertices and uv
+      var model = this.meshCustomBlock(value,x,y,z);
+      vertices = vertices.concat(model.vertices);
+      uv = uv.concat(model.uv);
     } else if (!isTransparent[value]) {
       solidVoxels.data[i] = value | (1<<15); // opaque bit
     }
   }
 
+  // load combined porous mesh into GL
+  var gl = this.shell.gl;
+  var verticesBuf = createBuffer(gl, new Float32Array(vertices));
+  var uvBuf = createBuffer(gl, new Float32Array(uv));
+  var porousMesh = createVAO(gl, [
+      { buffer: verticesBuf,
+        size: 3
+      },
+      {
+        buffer: uvBuf,
+        size: 2
+      }
+      ]);
+  porousMesh.length = vertices.length/3;
+
+
   var took = Date.now() - begin;
   if (took > 10) console.log('splitVoxelArray '+took+' ms');
+
+  return porousMesh;
 }
 
