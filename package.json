@@ -1,7 +1,7 @@
 {
   "name": "voxel-mesher",
   "version": "0.12.0",
-  "description": "Voxel ambient occlusion mesher",
+  "description": "voxel mesher with ambient occlusion and transparency (voxel.js plugin)",
   "main": "mesh-plugin.js",
   "directories": {
     "test": "test"
@@ -28,10 +28,13 @@
   },
   "keywords": [
     "voxel",
+    "plugin",
     "ambient",
     "occlusion",
     "mesher",
-    "ndarray"
+    "ndarray",
+    "transparency",
+    "translucency"
   ],
   "author": "Mikola Lysenko",
   "contributors": [
