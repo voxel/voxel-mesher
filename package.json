@@ -7,14 +7,14 @@
     "test": "test"
   },
   "dependencies": {
-    "block-models": "git://github.com/deathcap/block-models.git#b8cb98f50349201eade4e5e94f5717c534c9be3d",
-    "ndarray": "~1.0.1",
-    "greedy-mesher": "~1.0.0",
-    "cwise-compiler": "~0.1.0",
-    "typedarray-pool": "~0.1.1",
-    "gl-buffer": "^2.0.6",
-    "gl-vao": "^1.1.2",
-    "ndarray-ops": "^1.2.1",
+    "block-models": "^0.1.0",
+    "ndarray": "^1.0.15",
+    "greedy-mesher": "^1.0.2",
+    "cwise-compiler": "^1.0.0",
+    "typedarray-pool": "^1.0.2",
+    "gl-buffer": "^2.0.8",
+    "gl-vao": "^1.1.3",
+    "ndarray-ops": "^1.2.2",
     "gl-matrix": "^2.2.1",
     "inherits": "^2.0.1"
   },
