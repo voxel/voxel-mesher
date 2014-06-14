@@ -22,7 +22,7 @@ Constructs a mesh for `voxels`.
 * `voxelSideTextureIDs`: 2D ndarray (15-bit voxel ID, side 0-6) to 16-bit texture ID, defaults to voxel ID
 * `voxelSideTextureSizes`: 2D ndarray (15-bit voxel ID, side 0-6) to log2(texture size), defaults to 4 (2^4=16)
 * `position`: vector `[x,y,z]` of this chunk's position
-* `pad`: number of voxels to pad around each edge (2)
+* `pad`: twice the number of voxels to pad around each edge (4)
 
 Returns a typed array encoding the mesh, or else null if there were no facets.
 This is in the same format that [voxel-shader](https://github.com/deathcap/voxel-shader) expects:
