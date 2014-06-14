@@ -47,7 +47,7 @@ MesherPlugin.prototype.createVoxelMesh = function(gl, voxels, voxelSideTextureID
 }
 
 // mesh custom voxel
-MesherPlugin.prototype.meshCustomBlock = function(value) {
+MesherPlugin.prototype.meshCustomBlock = function(value,x,y,z) {
   var modelDefn = this.registry.blockProps[value].blockModel;
   var stitcher = this.stitcher;
 
@@ -61,6 +61,14 @@ MesherPlugin.prototype.meshCustomBlock = function(value) {
       return stitcher.getTextureUV(name); // only available when textures are ready
     }
   );
+
+  // translate into voxel position
+  var length = model.vertices.length;
+  for (var i = 0; i < length; i += 3) {
+    model.vertices[i + 0] += x;
+    model.vertices[i + 1] += y;
+    model.vertices[i + 2] += z;
+  }
 
   // load into GL
   var verticesBuf = createBuffer(gl, new Float32Array(model.vertices));
@@ -108,17 +116,18 @@ MesherPlugin.prototype.splitVoxelArray = function(voxels) {
     if (hasBlockModel[value]) {
       solidVoxels.data[i] = 0;
 
-      // sorry
+      // extract coordinate from ndarray index (sorry)
       var o = i;
       var z = (o % 36)-2; o = Math.floor(o / 36);
       var y = (o % 36)-2; o = Math.floor(o / 36);
       var x = o-2;
-      z += voxels.position[0]*32
-      y += voxels.position[1]*32
-      x += voxels.position[2]*32
 
       // compute the custom mesh now
-      var blockMesh = this.meshCustomBlock(value);
+      var blockMesh = this.meshCustomBlock(value,x,y,z);
+
+      z = voxels.position[0]*32
+      y = voxels.position[1]*32
+      x = voxels.position[2]*32
       blockMesh.position = [x,y,z];
       this.porousMeshes.push(blockMesh);
     } else if (!isTransparent[value]) {
