@@ -125,10 +125,6 @@ MesherPlugin.prototype.splitVoxelArray = function(voxels) {
       // compute the custom mesh now
       var blockMesh = this.meshCustomBlock(value,x,y,z);
 
-      z = voxels.position[0]*32
-      y = voxels.position[1]*32
-      x = voxels.position[2]*32
-      blockMesh.position = [x,y,z];
       this.porousMeshes.push(blockMesh);
     } else if (!isTransparent[value]) {
       solidVoxels.data[i] = value | (1<<15); // opaque bit
