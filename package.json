@@ -1,6 +1,6 @@
 {
   "name": "voxel-mesher",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "voxel mesher with ambient occlusion and transparency (voxel.js plugin)",
   "main": "mesh-plugin.js",
   "directories": {
