@@ -5,7 +5,9 @@ var inherits = require('inherits');
 var EventEmitter = require('events').EventEmitter;
 var ndarray = require('ndarray');
 var ops = require('ndarray-ops');
-var createBlockGeometry = require("block-models");
+var parseBlockModel = require("block-models");
+var createBuffer = require("gl-buffer");
+var createVAO = require("gl-vao");
 
 module.exports = function(game, opts) {
   return new MesherPlugin(game, opts);
@@ -46,19 +48,35 @@ MesherPlugin.prototype.createVoxelMesh = function(gl, voxels, voxelSideTextureID
 
 // mesh custom voxel
 MesherPlugin.prototype.meshCustomBlock = function(value) {
-  var model = this.registry.blockProps[value].blockModel;
+  var modelDefn = this.registry.blockProps[value].blockModel;
   var stitcher = this.stitcher;
 
-  var blockMesh = createBlockGeometry(
-    this.shell.gl,
-    model,
+  var gl = this.shell.gl;
+
+  // parse JSON to vertices and UV
+  var model = parseBlockModel(
+    modelDefn,
     //getTextureUV:
     function(name) {
       return stitcher.getTextureUV(name); // only available when textures are ready
     }
   );
 
-  return blockMesh;
+  // load into GL
+  var verticesBuf = createBuffer(gl, new Float32Array(model.vertices));
+  var uvBuf = createBuffer(gl, new Float32Array(model.uv));
+  var mesh = createVAO(gl, [
+      { buffer: verticesBuf,
+        size: 3
+      },
+      {
+        buffer: uvBuf,
+        size: 2
+      }
+      ]);
+  mesh.length = model.vertices.length/3;
+
+  return mesh;
 };
 
 // populates solidVoxels, porousVoxels

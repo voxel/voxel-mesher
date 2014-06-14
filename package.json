@@ -7,7 +7,7 @@
     "test": "test"
   },
   "dependencies": {
-    "block-models": "git://github.com/deathcap/block-models.git#b066a16bdf2b70fa45e18f1917cebd9e9e85db5c",
+    "block-models": "git://github.com/deathcap/block-models.git#14cf7549a640f136c80547cb6601cbee289a4916",
     "ndarray": "~1.0.1",
     "greedy-mesher": "~1.0.0",
     "cwise-compiler": "~0.1.0",
