@@ -18,7 +18,12 @@
     "ndarray-ops": "^1.2.2",
     "typedarray-pool": "^1.0.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "ndarray-fill": "^1.0.1",
+    "ndarray-segment": "0.0.0",
+    "tap": "^0.6.0",
+    "voxel": "^0.5.0"
+  },
   "scripts": {
     "test": "tap test/*.js"
   },
