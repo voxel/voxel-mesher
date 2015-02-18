@@ -4,6 +4,8 @@ A voxel mesher for ndarrays that handles ambient occlusion and transparency.
 
 Based on @mikolalysenko's [ao-mesher](https://github.com/mikolalysenko/ao-mesher)
 
+[![Build Status](https://travis-ci.org/deathcap/voxel-mesher.png)](https://travis-ci.org/deathcap/voxel-mesher)
+
 ## Install
 
     npm install voxel-mesher
