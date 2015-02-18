@@ -5,8 +5,7 @@ var createBuffer = require("gl-buffer")
 var createVAO = require("gl-vao")
 var createAOMesh = require("./mesh.js")
 var ops = require("ndarray-ops")
-var glm = require("gl-matrix")
-var mat4 = glm.mat4
+var mat4 = require("gl-mat4")
 
 //Creates a mesh from a set of voxels
 function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes, position, pad, that) {
