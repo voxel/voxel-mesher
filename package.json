@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/deathcap/voxel-mesher.git"
+    "url": "git://github.com/voxel/voxel-mesher.git"
   },
   "keywords": [
     "voxel",
@@ -48,6 +48,6 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "bugs": {
-    "url": "https://github.com/deathcap/voxel-mesher/issues"
+    "url": "https://github.com/voxel/voxel-mesher/issues"
   }
 }

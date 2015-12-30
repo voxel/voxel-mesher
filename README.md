@@ -4,13 +4,13 @@ A voxel mesher for ndarrays that handles ambient occlusion and transparency.
 
 Based on @mikolalysenko's [ao-mesher](https://github.com/mikolalysenko/ao-mesher)
 
-[![Build Status](https://travis-ci.org/deathcap/voxel-mesher.png)](https://travis-ci.org/deathcap/voxel-mesher)
+[![Build Status](https://travis-ci.org/voxel/voxel-mesher.png)](https://travis-ci.org/voxel/voxel-mesher)
 
 ## Install
 
     npm install voxel-mesher
 
-Load with [voxel-plugins](https://github.com/deathcap/voxel-plugins)
+Load with [voxel-plugins](https://github.com/voxel/voxel-plugins)
 
 ### API
 
@@ -27,7 +27,7 @@ Constructs a mesh for `voxels`.
 * `pad`: twice the number of voxels to pad around each edge (4)
 
 Returns a typed array encoding the mesh, or else null if there were no facets.
-This is in the same format that [voxel-shader](https://github.com/deathcap/voxel-shader) expects:
+This is in the same format that [voxel-shader](https://github.com/voxel/voxel-shader) expects:
 
     {
         vertexArrayObjects: {surface: ..., porous: ...},
@@ -42,11 +42,11 @@ Other plugins can add their own VAOs to `vertexArrayObjects`, by listening for t
         result.vertexArrayObjects.myVAO = ...
     });
 
-This event is used by [voxel-wireframe](https://github.com/deathcap/voxel-wireframe) and [voxel-chunkboarder](https://github.com/deathcap/voxel-chunkborder).
+This event is used by [voxel-wireframe](https://github.com/voxel/voxel-wireframe) and [voxel-chunkboarder](https://github.com/voxel/voxel-chunkborder).
 
 ### Voxel types
 
-[voxel-registry](https://github.com/deathcap/voxel-registry) is used to lookup voxel information for meshing,
+[voxel-registry](https://github.com/voxel/voxel-registry) is used to lookup voxel information for meshing,
 the following properties are supported:
 
 * `transparent`: if true, the voxel textures have transparency, otherwise assumed fully opaque
@@ -62,4 +62,4 @@ These properties determines the voxel type and how they are meshed:
  * Allows for translucent (example: stained glass) and custom model (example: slabs) blocks
 
 # Credits
-(c) 2013 Mikola Lysenko, (c) 2014 deathcap. MIT License
+(c) 2013 Mikola Lysenko, (c) 2014-2015 deathcap. MIT License
