@@ -42,7 +42,7 @@ Other plugins can add their own VAOs to `vertexArrayObjects`, by listening for t
         result.vertexArrayObjects.myVAO = ...
     });
 
-This event is used by [voxel-wireframe](https://github.com/voxel/voxel-wireframe) and [voxel-chunkboarder](https://github.com/voxel/voxel-chunkborder).
+This event is used by [voxel-wireframe](https://github.com/voxel/voxel-wireframe) and [voxel-chunkborder](https://github.com/voxel/voxel-chunkborder).
 
 ### Voxel types
 
